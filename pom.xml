@@ -5,7 +5,7 @@
     <groupId>com.tarponsoftware</groupId>
     <artifactId>oscal-sherpa</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
 
     <properties>
         <vaadin.version>24.3.12</vaadin.version>
@@ -13,97 +13,10 @@
         <jackson.version>2.13.3</jackson.version>
     </properties>
 
-    <dependencies>
-        <!-- Vaadin dependencies -->
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-core</artifactId>
-            <version>${vaadin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-bom</artifactId>
-            <version>${vaadin.version}</version>
-            <type>pom</type>
-<!--            <scope>import</scope> -->
-        </dependency>
+<modules>
+    <module>web</module>
+    <module>core</module>
+</modules>
 
-        <!-- H2 Database -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-            <version>2.2.224</version>
-        </dependency>
 
-        <!-- TopLink / EclipseLink -->
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa</artifactId>
-            <version>${eclipselink.version}</version>
-        </dependency>
-
-        <!-- JAXB dependencies for Java 9+ -->
-        <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>4.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>4.0.2</version>
-        </dependency>
-
-        <!-- Vaadin Servlet -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <!-- Maven War Plugin -->
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>11.0.21</version>                
-            </plugin>            
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.1</version>
-                <configuration>
-                    <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
-                </configuration>
-            </plugin>
-        
-
-            <!-- JAXB Code Generation Plugin -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>xjc</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-<!--                    <schemaDirectory>src/main/resources/xsd</schemaDirectory> 
-                    <outputDirectory>src/main/java</outputDirectory> -->
-                    <packageName>com.tarponsoftware.oscal</packageName>
-                <sources>
-                    <source>xsd</source>
-                </sources>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

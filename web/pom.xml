@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.tarponsoftware</groupId>
+    <packaging>war</packaging>
+    <artifactId>oscal-sherpa-web</artifactId>
+    <parent>
+        <groupId>com.tarponsoftware</groupId>
+        <artifactId>oscal-sherpa</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <vaadin.version>24.3.12</vaadin.version>
+        <eclipselink.version>4.0.3</eclipselink.version>
+        <jackson.version>2.13.3</jackson.version>
+    </properties>
+
+    <dependencies>
+        <!-- Vaadin dependencies -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-core</artifactId>
+            <version>${vaadin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-bom</artifactId>
+            <version>${vaadin.version}</version>
+            <type>pom</type>
+<!--            <scope>import</scope> -->
+        </dependency>
+
+
+
+        <!-- H2 Database -->
+        <dependency>
+        <groupId>com.tarponsoftware</groupId>
+        <artifactId>oscal-sherpa-core</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Vaadin Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Maven War Plugin -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>11.0.21</version>                
+            </plugin>            
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+                </configuration>
+            </plugin>
+        
+        </plugins>
+    </build>
+</project>
