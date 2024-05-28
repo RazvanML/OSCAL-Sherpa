@@ -14,8 +14,10 @@ import com.tarponsoftware.oscal.OscalCatalogCatalogASSEMBLY;
 import com.tarponsoftware.oscal.OscalCatalogControlASSEMBLY;
 import com.tarponsoftware.oscal.OscalCatalogGroupASSEMBLY;
 import com.tarponsoftware.oscal.OscalControlCommonPartASSEMBLY;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.treegrid.TreeGrid;
 import com.vaadin.flow.router.Route;
 
@@ -41,7 +43,7 @@ class TreeItem {
 }
 
 @Route("")
-public class View extends Div {
+public class View extends VerticalLayout {
 
     public  List<Serializable> getContent(List<InlineMarkupType> in) {
         List<Serializable> ret = new ArrayList<>();
@@ -61,14 +63,16 @@ public class View extends Div {
     
     public  void listParts(TreeItem parent, List<OscalControlCommonPartASSEMBLY> parts) {
         for (OscalControlCommonPartASSEMBLY p : parts) {
-            TreeItem ti = new TreeItem("part:" + p.getId() + getContent(getValues(p.getBlockElementGroup())));
+            TreeItem ti = new TreeItem("<I>Part:</I><B>" + p.getId() +"</B>" + getContent(getValues(p.getBlockElementGroup())));
             listParts(ti, p.getPart());
             parent.child.add(ti);
         }
     }
 
     public View() throws JAXBException, FileNotFoundException {
+        getStyle().setHeight("100%");
         TreeGrid<TreeItem> treeGrid = new TreeGrid<>();
+        treeGrid.getStyle().set("height", "100%");
 
 
         List<TreeItem> data = new ArrayList<>();
@@ -86,12 +90,10 @@ public class View extends Div {
         JAXBElement<OscalCatalogCatalogASSEMBLY> obj = unmarshaller.unmarshal(src, OscalCatalogCatalogASSEMBLY.class);
         OscalCatalogCatalogASSEMBLY oscalRoot = obj.getValue();
         for (OscalCatalogGroupASSEMBLY g : oscalRoot.getGroup()) {
-            System.out.println("Group: " + g.getId() + " " + g.getTitle().getContent());
-            TreeItem ti = new TreeItem("Group: " + g.getId() + " " + g.getTitle().getContent());
+            TreeItem ti = new TreeItem("<I>Group:</I><B>" + g.getId() + "</B> " + g.getTitle().getContent());
             listParts(ti, g.getPart());
             for (OscalCatalogControlASSEMBLY c : g.getControl()) {
-                TreeItem ti1 = new TreeItem("Control: " + c.getId() + " " + c.getTitle().getContent());
-                System.out.println("Countrol: " + c.getId() + " " + c.getTitle().getContent());
+                TreeItem ti1 = new TreeItem("<I>Control:</I><B>" + c.getId() + "</B> " + c.getTitle().getContent());
                 listParts(ti1, c.getPart());
                 ti.child.add(ti1);
             }
@@ -101,8 +103,7 @@ public class View extends Div {
         treeGrid.setItems(data, TreeItem::getChild);
 
         treeGrid.addComponentHierarchyColumn(item -> {
-            Span test = new Span();
-            test.setText(item.value);
+            Html test = new Html("<SPAN>"+item.value+"</SPAN>");            
             return test;
         }).setHeader("Name");
 
@@ -113,5 +114,6 @@ public class View extends Div {
         }).setHeader("Count");
 
         add(treeGrid);
+        add(new Button("hello"));
     }
 }
